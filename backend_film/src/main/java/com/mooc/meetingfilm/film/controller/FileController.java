@@ -10,9 +10,10 @@ import com.mooc.meetingfilm.film.service.FileServiceImpl;
 import com.mooc.meetingfilm.utils.common.vo.BasePageVO;
 import com.mooc.meetingfilm.utils.common.vo.BaseResponseVO;
 import com.mooc.meetingfilm.utils.exception.CommonServiceException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -20,12 +21,14 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping(value = "/films")
+@Api(tags = "我的swagger测试类",description = "用户基本信息操作")
 public class FileController {
 
     @Autowired
     private FileServiceImpl filmServiceAPI;
 
     @RequestMapping(value = "/actors",method = RequestMethod.GET)
+    @ApiOperation(value = "我的方法value",notes="方法的注意事项和备注",tags="说明该方法的作用，参数是个数组，可以填多个。格式：tags={\"作用1\",\"作用2\"}" )
     public BaseResponseVO actors(BasePageVO pageVO) throws CommonServiceException {
         pageVO.checkParam();
         IPage<DescribeActorsRespVO> iPage = filmServiceAPI.describeActors(pageVO.getNowPage(),pageVO.getPageSize());

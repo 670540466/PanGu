@@ -1,6 +1,8 @@
 package com.mooc.meetingfilm.utils.common.vo;
 
 import com.mooc.meetingfilm.utils.exception.CommonServiceException;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -8,11 +10,17 @@ import lombok.Data;
  * @program : com.mooc.meetingfilm.utils.common.vo
  * @description : 表现层公共返回
  **/
+@ApiModel(value="BaseResponseVO对象",description="基础响应对象BaseResponseVO")
 @Data
 public class BaseResponseVO<M> {
 
+    @ApiModelProperty(name = "code",value = "业务编号")
     private Integer code;   // 业务编号
+
+    @ApiModelProperty(name = "message",value = "异常信息")
     private String message; // 异常信息
+
+    @ApiModelProperty(name = "data",value = "业务数据返回")
     private M data;         // 业务数据返回
 
     private BaseResponseVO(){}
