@@ -9,6 +9,8 @@ import com.mooc.meetingfilm.cinema.service.CinemaServiceAPI;
 import com.mooc.meetingfilm.utils.common.vo.BasePageVO;
 import com.mooc.meetingfilm.utils.common.vo.BaseResponseVO;
 import com.mooc.meetingfilm.utils.exception.CommonServiceException;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +39,28 @@ public class CinemaController {
 
         return BaseResponseVO.success();
     }
+    public BaseResponseVO fallbackMethod(int nowPage,int pageSize){
+        Map<String, Object> result = Maps.newHashMap();
+        result.put("code", 500);
+        result.put("message", "服务降级");
+        return BaseResponseVO.success(result);
+    }
 
+    @HystrixCommand(fallbackMethod = "fallbackMethod",
+            commandProperties = {
+                    @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value= "1000"),
+                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50")
+            },
+            threadPoolProperties = {
+                    @HystrixProperty(name = "coreSize", value = "1"),
+                    @HystrixProperty(name = "maxQueueSize", value = "10"),
+                    @HystrixProperty(name = "keepAliveTimeMinutes", value = "1000"),
+                    @HystrixProperty(name = "queueSizeRejectionThreshold", value = "8"),
+                    @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "12"),
+                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "1500")
+            },ignoreExceptions = CommonServiceException.class)
     @RequestMapping(value = "", method = RequestMethod.GET)
     public BaseResponseVO describeCinemas(
             @RequestParam(name = "nowPage", defaultValue = "1") int nowPage,
