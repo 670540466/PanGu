@@ -11,7 +11,7 @@ import rx.Subscriber;
  **/
 public class ObserveCommandTest {
 
-    @Test
+    @Test     
     public void observeTest() throws InterruptedException {
         long beginTime = System.currentTimeMillis();
 
@@ -45,7 +45,7 @@ public class ObserveCommandTest {
             }
         });
 
-        Thread.sleep(2000l);
+        Thread.sleep(1000l);
     }
 
 }
