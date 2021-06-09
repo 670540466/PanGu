@@ -1,4 +1,4 @@
-package com.mooc.meetingfilm.film.controller.vo;
+package com.mooc.meetingfilm.apis.film.vo;
 import lombok.Data;
 
 /**
