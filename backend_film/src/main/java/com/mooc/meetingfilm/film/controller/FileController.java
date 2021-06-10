@@ -36,7 +36,7 @@ public class FileController {
         return BaseResponseVO.success(result);
     }
 
-    @RequestMapping(value = "",method = RequestMethod.POST)
+    @RequestMapping(value = "",method = RequestMethod.GET)
     public BaseResponseVO films(BasePageVO pageVO) throws CommonServiceException {
         pageVO.checkParam();
         IPage<DescribeFilmsRespVO> iPage = filmServiceAPI.describeFilms(pageVO.getNowPage(),pageVO.getPageSize());
