@@ -1,5 +1,6 @@
 package com.mooc.meeting.apigwzuul.config;
 
+import com.mooc.meeting.apigwzuul.filter.JWTFilter;
 import com.mooc.meeting.apigwzuul.filter.MyFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,11 @@ public class ZuulConfig {
     @Bean
     public MyFilter initMyFilter(){
         return new MyFilter();
+    }
+
+    @Bean
+    public JWTFilter initJwtFilter(){
+        return new JWTFilter();
     }
 
 }
